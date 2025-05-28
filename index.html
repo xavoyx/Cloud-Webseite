@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deine Cloud</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #1c2526;
+      color: #e6ecec;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      padding: 30px;
+      background: rgba(40, 48, 49, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      animation: fadeIn 0.8s ease-out;
+      backdrop-filter: blur(5px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      text-align: center;
+      color: #00d4a3;
+      margin-bottom: 25px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    h2 {
+      color: #00d4a3;
+      margin: 20px 0 10px;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #333c3d;
+      color: #e6ecec;
+      font-size: 16px;
+      transition: all 0.4s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      background: #3f4a4b;
+      box-shadow: 0 0 8px rgba(0, 212, 163, 0.5);
+      transform: scale(1.01);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #385750;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      margin-bottom: 12px;
+    }
+
+    button:hover {
+      background: #00b386;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 212, 163, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .error, .success {
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      animation: pulse 0.5s ease;
+    }
+
+    .error { background: #ff4d4d; }
+    .success { background: #385750; }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0; }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .note, .file {
+      background: #333c3d;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .note:hover, .file:hover {
+      transform: translateX(5px);
+      opacity: 0.95;
+    }
+
+    .delete-icon {
+      background: #ff4d4d;
+      color: #fff;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .delete-icon:hover {
+      background: #e04343;
+      transform: scale(1.1);
+      box-shadow: 0 2px 8px rgba(255, 77, 77, 0.4);
+    }
+
+    #dashboard, #register { display: none; }
+    #login { display: block; }
+
+    .secondary-button {
+      background: #555e5f;
+      margin-top: 10px;
+    }
+
+    .secondary-button:hover {
+      background: #666f70;
+      box-shadow: 0 4px 15px rgba(85, 94, 95, 0.4);
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px;
+      }
+      h1 { font-size: 24px; }
+      h2 { font-size: 18px; }
+      input, textarea, button { font-size: 14px; }
+      .delete-icon { width: 20px; height: 20px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="login">
+  <h1>Willkommen</h1>
+  <div id="login-error" class="error" style="display: none;"></div>
+  <div class="form-group">
+    <input type="text" id="username" placeholder="Benutzername" required>
+  </div>
+  <div class="form-group">
+    <input type="password" id="password" placeholder="Passwort" required>
+  </div>
+  <button onclick="login()">Anmelden</button>
+  <button class="secondary-button" onclick="showRegister()">Registrieren</button>
+</div>
+
+<div class="container" id="register">
+  <h1>Registrieren</h1>
+  <div id="register-message" class="error" style="display: none;"></div>
+  <div class="form-group">
+    <input type="text" id="reg-username" placeholder="Benutzername" required>
+  </div>
+  <div class="form-group">
+    <input type="password" id="reg-password" placeholder="Passwort" required>
+  </div>
+  <button onclick="register()">Registrieren</button>
+  <button class="secondary-button" onclick="showLogin()">Zurück zum Login</button>
+</div>
+
+<div class="container" id="dashboard">
+  <h1>Dein Dashboard</h1>
+  <div id="message" class="success" style="display: none;"></div>
+  <div class="form-group">
+    <input type="file" id="fileInput">
+  </div>
+  <div class="button-group">
+    <button onclick="uploadFile()">Datei hochladen</button>
+    <div class="form-group">
+      <textarea id="noteInput" placeholder="Notiz schreiben..." rows="4"></textarea>
+    </div>
+    <button onclick="addNote()">Notiz speichern</button>
+    <button onclick="downloadUserData()">Daten als JSON herunterladen</button>
+    <button class="secondary-button" onclick="logout()">Abmelden</button>
+  </div>
+  <h2>Deine Dateien</h2>
+  <div id="fileList"></div>
+  <h2>Deine Notizen</h2>
+  <div id="noteList"></div>
+</div>
+
+<script>
+  function initUsers() {
+    const users = localStorage.getItem('all_users');
+    if (!users) {
+      const initialUsers = { users: { 'testuser': 'password123' } };
+      localStorage.setItem('all_users', JSON.stringify(initialUsers));
+      downloadAllUsers();
+    }
+  }
+  initUsers();
+
+  function register() {
+    const username = document.getElementById('reg-username').value;
+    const password = document.getElementById('reg-password').value;
+    const messageDiv = document.getElementById('register-message');
+
+    if (!username || !password) {
+      messageDiv.textContent = 'Bitte gib Benutzername und Passwort ein';
+      messageDiv.className = 'error';
+      messageDiv.style.display = 'block';
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('all_users') || '{}');
+    if (users.users[username]) {
+      messageDiv.textContent = 'Benutzername existiert bereits';
+      messageDiv.className = 'error';
+      messageDiv.style.display = 'block';
+      return;
+    }
+
+    users.users[username] = password;
+    localStorage.setItem('all_users', JSON.stringify(users));
+    downloadAllUsers();
+    messageDiv.textContent = 'Registrierung erfolgreich! Bitte melde dich an.';
+    messageDiv.className = 'success';
+    messageDiv.style.display = 'block';
+    setTimeout(showLogin, 1000);
+  }
+
+  function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('login-error');
+    const users = JSON.parse(localStorage.getItem('all_users') || '{}');
+
+    if (users.users[username] && users.users[username] === password) {
+      localStorage.setItem('currentUser', username);
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadData();
+    } else {
+      errorDiv.textContent = 'Ungültiger Benutzername oder Passwort';
+      errorDiv.style.display = 'block';
+    }
+  }
+
+  function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const messageDiv = document.getElementById('message');
+    if (!fileInput.files[0]) {
+      messageDiv.textContent = 'Bitte wähle eine Datei aus';
+      messageDiv.className = 'error';
+      messageDiv.style.display = 'block';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const user = localStorage.getItem('currentUser');
+      const userData = JSON.parse(localStorage.getItem(`user_${user}`) || '{"files": [], "notes": []}');
+      userData.files.push({
+        name: fileInput.files[0].name,
+        content: e.target.result.split(',')[1] // Base64-Inhalt
+      });
+      localStorage.setItem(`user_${user}`, JSON.stringify(userData));
+      messageDiv.textContent = 'Datei erfolgreich hochgeladen';
+      messageDiv.className = 'success';
+      messageDiv.style.display = 'block';
+      loadData();
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+  }
+
+  function addNote() {
+    const note = document.getElementById('noteInput').value;
+    const messageDiv = document.getElementById('message');
+    if (!note) {
+      messageDiv.textContent = 'Bitte gib eine Notiz ein';
+      messageDiv.className = 'error';
+      messageDiv.style.display = 'block';
+      return;
+    }
+
+    const user = localStorage.getItem('currentUser');
+    const userData = JSON.parse(localStorage.getItem(`user_${user}`) || '{"files": [], "notes": []}');
+    userData.notes.push(note);
+    localStorage.setItem(`user_${user}`, JSON.stringify(userData));
+    messageDiv.textContent = 'Notiz erfolgreich gespeichert';
+    messageDiv.className = 'success';
+    messageDiv.style.display = 'block';
+    document.getElementById('noteInput').value = '';
+    loadData();
+  }
+
+  function deleteNote(index) {
+    const user = localStorage.getItem('currentUser');
+    const userData = JSON.parse(localStorage.getItem(`user_${user}`) || '{"files": [], "notes": []}');
+    userData.notes.splice(index, 1);
+    localStorage.setItem(`user_${user}`, JSON.stringify(userData));
+    document.getElementById('message').textContent = 'Notiz gelöscht';
+    document.getElementById('message').className = 'success';
+    document.getElementById('message').style.display = 'block';
+    loadData();
+  }
+
+  function deleteFile(index) {
+    const user = localStorage.getItem('currentUser');
+    const userData = JSON.parse(localStorage.getItem(`user_${user}`) || '{"files": [], "notes": []}');
+    userData.files.splice(index, 1);
+    localStorage.setItem(`user_${user}`, JSON.stringify(userData));
+    document.getElementById('message').textContent = 'Datei gelöscht';
+    document.getElementById('message').className = 'success';
+    document.getElementById('message').style.display = 'block';
+    loadData();
+  }
+
+  function loadData() {
+    const user = localStorage.getItem('currentUser');
+    const userData = JSON.parse(localStorage.getItem(`user_${user}`) || '{"files": [], "notes": []}');
+    const fileList = document.getElementById('fileList');
+    const noteList = document.getElementById('noteList');
+    fileList.innerHTML = userData.files.map((file, index) =>
+            `<div class="file">${file.name}<span class="delete-icon" onclick="deleteFile(${index})">🗑️</span></div>`
+    ).join('');
+    noteList.innerHTML = userData.notes.map((note, index) =>
+            `<div class="note">${note}<span class="delete-icon" onclick="deleteNote(${index})">🗑️</span></div>`
+    ).join('');
+  }
+
+  function downloadUserData() {
+    const user = localStorage.getItem('currentUser');
+    const userData = localStorage.getItem(`user_${user}`);
+    const blob = new Blob([userData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `user_data_${user}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadAllUsers() {
+    const users = localStorage.getItem('all_users');
+    const blob = new Blob([users], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'all_users.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function logout() {
+    localStorage.removeItem('currentUser');
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('login').style.display = 'block';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('login-error').style.display = 'none';
+  }
+
+  function showRegister() {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('register').style.display = 'block';
+  }
+
+  function showLogin() {
+    document.getElementById('register').style.display = 'none';
+    document.getElementById('login').style.display = 'block';
+    document.getElementById('reg-username').value = '';
+    document.getElementById('reg-password').value = '';
+    document.getElementById('register-message').style.display = 'none';
+  }
+</script>
+</body>
+</html>
