@@ -1,8 +1,5 @@
 # Persönliche Cloud-Webseite 🌐
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub issues](https://img.shields.io/github/issues/<dein-username>/<dein-repo>)](https://github.com/<dein-username>/<dein-repo>/issues)
-[![GitHub stars](https://img.shields.io/github/stars/<dein-username>/<dein-repo>)](https://github.com/<dein-username>/<dein-repo>/stargazers)
 
 Eine moderne, clientseitige Webanwendung, die als persönliche Cloud-Lösung dient. Benutzer können sich anmelden, beliebige Dateien hochladen, Notizen erstellen und löschen sowie ihre Daten als JSON exportieren. Die Anwendung nutzt ein dunkles Theme mit flüssigen Animationen und speichert alle Daten lokal im Browser mit `localStorage`.
 
@@ -22,14 +19,3 @@ Eine moderne, clientseitige Webanwendung, die als persönliche Cloud-Lösung die
 - **HTML/CSS**: Reines CSS für ein modernes, dunkles Design ohne Frameworks.
 - **JavaScript**: Clientseitige Logik mit `localStorage` für Datenspeicherung.
 - **Base64**: Dateien werden als Base64 codiert, um beliebige Dateitypen zu unterstützen.
-
-## 📋 Voraussetzungen
-
-- Ein moderner Webbrowser (z. B. Chrome, Firefox, Edge).
-- Kein Server oder Backend erforderlich.
-
-## 📥 Installation
-
-1. Klone das Repository:
-   ```bash
-   git clone https://github.com/<dein-username>/<dein-repo>.git
