@@ -19,3 +19,20 @@ Eine moderne, clientseitige Webanwendung, die als persönliche Cloud-Lösung die
 - **HTML/CSS**: Reines CSS für ein modernes, dunkles Design ohne Frameworks.
 - **JavaScript**: Clientseitige Logik mit `localStorage` für Datenspeicherung.
 - **Base64**: Dateien werden als Base64 codiert, um beliebige Dateitypen zu unterstützen.
+
+## Nutzung
+
+Öffne index.html in einem Browser.
+
+Registriere einen neuen Benutzer oder melde dich mit dem Standard-Benutzer an:
+
+Benutzername: testuser
+Passwort: password123
+
+Im Dashboard kannst du:
+
+Beliebige Dateien hochladen.
+Notizen erstellen und löschen (über das Mülleimer-Symbol).
+Dateien löschen (über das Mülleimer-Symbol).
+Deine Daten als user_data_<username>.json herunterladen.
+Alle Benutzerdaten als all_users.json herunterladen (bei Registrierung).
